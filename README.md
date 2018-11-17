@@ -1,6 +1,6 @@
 # Coding Interview Notes 编程面试刷题笔记
 
-Author[Quan Wang](https://wangquan.me)
+Author: [Quan Wang](https://wangquan.me)
 
 作者：[王泉](https://wangquan.me)
 
