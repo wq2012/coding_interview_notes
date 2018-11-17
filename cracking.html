@@ -1,0 +1,527 @@
+<html>
+<head>
+  <title>Evernote Export</title>
+  <basefont face="Tahoma" size="2" />
+  <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+  <meta name="exporter-version" content="Evernote Windows/276742; Windows/10.0.10586 (Win64);"/>
+  <link rel="stylesheet" href="//fonts.googleapis.com/earlyaccess/notosansscsliced.css" />
+  <style>
+    body, td {
+      font-family: 'Noto Sans SC Sliced', sans-serif;
+      font-size: 10pt;
+    }
+  </style>
+</head>
+<body>
+<a name="404"/>
+
+<div>
+<span><div style="text-align: center"><b><span style="font-size: 24px;">王泉的面试刷题笔记</span></b></div><div style="text-align: center"><b><span style="font-size: 24px;">（上篇）</span></b></div><div style="text-align: center"><b><span style="font-size: 24px;">Cracking the Coding Interview</span></b></div><div><span style="font-size: 19px;"><br/></span></div><div style="text-align: center"><span style="font-size: 19px;">Quan Wang &lt;quanrpi@gmail.com&gt;</span></div><div style="text-align: center"><span style="color: rgb(0, 0, 0); font-family: Tahoma; font-size: 19px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: center; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); display: inline !important; float: none;">2016.01.06</span></div><div style="text-align: center"><span style="font-size: 19px;"><span style="background-color: rgb(255, 255, 255);"><br/></span></span></div><hr/><div><b><span style="font-size: 24px;"><br/></span></b></div><div><span style="font-size: 24px;"><strong>Arrays and Strings</strong></span></div><div><div><br clear="none"/></div>
+三个重要的数据结构：</div><ol><li>Hash Tables</li></ol><ul><li>实现方法1：hash(key)%length</li><li>实现方法2：binary search tree (BST)， balanced</li></ul><ol><li>ArrayList (Dynamically Resizing Array)</li></ol><ul><li>double in size: takes O(N) time</li></ul><ol><li>StringBuffer</li></ol><ul><li>如果不用StringBuffer，则string concatenation是O(N^2)，N是词的个数</li></ul><div><br clear="none"/>
+1.1 单词是否有重复字母。<br clear="none"/>
+方法：Hash table。可以用bit vector进一步减少空间。<br clear="none"/>
+暴力比较O(N^2)。先排序后比较O(N log N)，但要改变原单词。
+<div><br clear="none"/></div>
+1.2 Reverse string<br clear="none"/>
+方法：首尾指针，不停互换直到相遇。
+<div><br clear="none"/></div>
+1.3 两个String是否是permutation。（又称anagram变位词）<br clear="none"/>
+方法：排序后比较，或者character count。如果长度不等直接false。
+<div><br clear="none"/></div>
+1.4 所有空格换成%20<br clear="none"/>
+方法：先算好长度，然后从后往前edit。
+<div><br clear="none"/></div>
+1.5 将String中的重复字母压缩。如cccc变为c4<br clear="none"/>
+方法：很简单。关键是要用StringBuffer来减少cost。注意利用String.valueOf(int)
+<div><br clear="none"/></div>
+1.6 N*N矩阵的90度旋转。<br clear="none"/>
+方法：关键在于分层遍历。rotate by layers。最外面一圈为一个layer，去掉之后的最外面一圈又是一个layer，等等。
+<div><br clear="none"/></div>
+1.7 将矩阵的0元素的整行整列设为0。<br clear="none"/>
+方法：</div><ol><li>用Hash table记录哪行哪列要变为0。</li><li>用矩阵的第一行第一列做标记，不用任何extra space。</li></ol><div><br clear="none"/>
+1.8 利用isSubstring来判断一个string是否是另一个string的rotation。<br clear="none"/>
+方法：先看长度是否相等。<br clear="none"/>
+然后看s2是否是s1s1的substring。<br clear="none"/></div><hr/><div><span style="font-size: 24px;"><strong>Linked Lists</strong></span><div><br clear="none"/></div>
+两个基本方法：<br clear="none"/>
+1 Runner technique：fast pointer and slow pointer<br clear="none"/>
+2 Recursion：至少用O(N)空间
+<div><br clear="none"/></div>
+2.1 Remove duplicates from unsorted linked list，如果不用额外空间呢？<br clear="none"/>
+方法：Hash table，O(N)时间。<br clear="none"/>
+不用额外空间，两个pointer，暴力比较，O(N^2)时间。
+<div><br clear="none"/></div>
+2.2 倒数第k个元素。<br clear="none"/>
+方法：两个指针，间隔为k。
+<div><br clear="none"/></div>
+2.3 删除单向链表中的一个节点。只给这个节点的access。<br clear="none"/>
+方法：将下一个节点node2的value和next赋值给当前节点。删除node2。
+<div><br clear="none"/></div>
+2.4 对链表进行partition操作。所有小于x的都在大于x的之前。<br clear="none"/>
+方法：建两个新链表before和after。<br clear="none"/>
+另一个方法：直接将小于x的插入到head之前作为新的head。
+<div><br clear="none"/></div>
+2.5 两个链表，每个节点存一个数，求两个链表表示的数字的和，也用链表来表示。两问：reverse order，forward order。<br clear="none"/>
+方法：<br clear="none"/>
+reverse order：比较简单，记得进位carry。<br clear="none"/>
+forward order：先计算两个list的长度，然后将短的那个pad with zeros。用recursion来做。要定义一个Wrapper类，将carry和头节点封装起来作为recursion方法的返回值。
+<div><br clear="none"/></div>
+2.6 Circular链表，寻找loop的开始处。<br clear="none"/>
+方法：<br clear="none"/>
+检测是否有loop，用fast runner和slow runner。<br clear="none"/>
+分析：loop之前有m个节点，loop内有n个节点。fast和slow相遇时，slow走过m+q，则fast走过m+q+np，p是套圈的圈数。<br clear="none"/>
+得到2(m+q)=m+q+np，即m+q=np。也就是说，fast在圈内已经走了q，再走m的话，就是np，到了loop的头。<br clear="none"/>
+因此，在fast和slow相遇时，将slow放回head。然后fast和slow以相同速度前进。走了m步之后，slow到了loop的头，fast也走到了loop的头。因此slow和fast再相遇时，就在loop的头。
+<div><br clear="none"/></div>
+2.7 链表是否是回文palindrome。<br clear="none"/>
+方法：fast/slow + stack。<br clear="none"/>
+slow走过的全部放入stack，等fast到头了，再将slow后面的和stack进行比较。<br clear="none"/></div><hr/><div><br clear="none"/><span style="font-size: 24px;"><strong>Stacks and Queues</strong></span><div><br clear="none"/></div>
+stack: pop, push, peek，此外还有empty()<br clear="none"/>
+queue: enqueue, dequeue对应Java的add和poll，此外还有peek()和isEmpty()
+<div><br clear="none"/></div>
+3.1 用一个array实现3个stack。<br clear="none"/>
+方法：分两种，fixed size和flexible。后者考虑用circular array。后者太复杂，面试一般不考。
+<div><br clear="none"/></div>
+3.2 设计一个有push，pop，和min这三个方法的stack，都是O(1)操作。<br clear="none"/>
+方法：在每个节点里记录它之前的所有节点的最小值。<br clear="none"/>
+节省空间的另一个方法：用两个stack，第二个stack专门用来放更小的值。
+<div><br clear="none"/></div>
+3.3 用SetOfStacks来模拟一个大的stack，实现push与pop。如果要从某个specific的stack中pop呢？实现popAt方法。<br clear="none"/>
+方法：很简单。但是如果要从specific的stack中进行pop，考虑是否要保持非顶的stack是满的。
+<div><br clear="none"/></div>
+3.4 Hanoi汉诺塔。<br clear="none"/>
+方法：递归。函数为moveDisks(int n, Tower origin, Tower destination, Tower buffer)。
+<div><br clear="none"/></div>
+3.5 用两个stack实现queue。<br clear="none"/>
+方法：两个stack分别为a和b。a的push对应queue的add，b的pop对应queue的remove。如果b为空且调用remove，则将a整个pop出来并push进b。
+<div><br clear="none"/></div>
+3.6 对stack排序（biggest on top），可以用additional stacks。<br clear="none"/>
+方法：<br clear="none"/>
+暴力法：额外用两个stack，叫做sorted和buffer。将原stack放进buffer，记录最小的，放进sorted，一直重复。时间为O(N^2)。<br clear="none"/>
+优化方法：只用一个额外stack叫做sorted。将原stack的top元素（称之为a）pop出来，然后不停将sorted的元素放进原stack，直到顶部元素小于a，将a放入sorted。一直重复以上步骤就行了。时间还是O(N^2)。（思路：原stack是top最大，那么辅助stack就是top最小。）
+<div><br clear="none"/></div>
+3.7 设计一个数据结构，里面存放着dog和cat。能够放入一个动物，并有三个取出方法：存放最久的动物，存放最久的dog，存放最久的cat。四个方法为enqueue, dequeueAny, dequeueDog, dequeueCat。<br clear="none"/>
+方法：cat和dog分别有一个queue。使用Wrapper类，加timestamp。cat和dog都是animal的子类。<br clear="none"/></div><hr/><div><br clear="none"/><span style="font-size: 24px;"><strong>Trees and Graphs</strong></span><div><br clear="none"/></div>
+4.1 判断tree是否balanced。<br clear="none"/>
+方法：定义checkHeight函数，如果不balance返回-1，否则返回高度。
+<div><br clear="none"/></div>
+4.2 有向图判断两个node间是否有路。<br clear="none"/>
+方法：breadth first search。
+<div><br clear="none"/></div>
+4.3 用sorted array创建height最小的BST。<br clear="none"/>
+方法：递归。取中间元素为当前节点。
+<div><br clear="none"/></div>
+4.4 把tree的每一层变成一个linked list。<br clear="none"/>
+方法：<br clear="none"/>
+breadth first search，用两个queue。一个queue里的元素的children放入另一个queue。<br clear="none"/>
+或者用任意traversal，记录节点的level。
+<div><br clear="none"/></div>
+4.5 判断binary tree是否是BST。<strong>（经典题！）</strong><br clear="none"/>
+方法：<br clear="none"/>
+1 可以用in-order遍历将tree复制到线性结构中。<br clear="none"/>
+2 同样用in-order遍历，但是不复制，而是用一个static全局变量，或者wrap一个返回值。这个变量记录previous出现的值。<br clear="none"/>
+3 将可以出现的最大值和最小值作为参数传入递归函数中。也就是，每个节点的范围。如果节点值不在范围中，返回false。
+<div><br clear="none"/></div>
+4.6 找出一个节点的next node，按照in-order。假设每个节点有指向parent的指针。<br clear="none"/>
+方法：<br clear="none"/>
+有右子树，则找右子树的最左节点。<br clear="none"/>
+无右子树，则往上找，直到本节点是上层节点的左子树。上层节点为next。<br clear="none"/>
+此法可以用来既不recursion也不用额外空间地遍历一个tree。
+<div><br clear="none"/></div>
+4.7 Binary tree里两个节点的first common ancestor。不用额外的data structure。<strong>（经典题！）</strong><br clear="none"/>
+方法：<br clear="none"/>
+如果是BST，则可以用数值判断。<br clear="none"/>
+如果有link to parent，则找出path to root，但是需要额外的data structure。<br clear="none"/>
+如果没有link to parent，则用这个法则：<strong>如果p和q在某个节点的两个不同子树里，则该节点为first common ancestor。</strong><br clear="none"/>
+定义一个函数boolean covers(root,p)判断p是否在tree中。利用covers来实现。O(N)。<br clear="none"/>
+优化：定义commonAncestor(root,p,q)函数。<br clear="none"/>
+有p无q-&gt;返回p；<br clear="none"/>
+有q无p-&gt;返回q；<br clear="none"/>
+无p无q-&gt;返回null；<br clear="none"/>
+否则-&gt;返回common ancestor。<br clear="none"/>
+特殊情况：q在p的子树里。返回用Wrapper类，将node和一个boolean给打包起来。
+<div><br clear="none"/></div>
+4.8 两个超大的二叉树，判断T2是否是T1的子树。<br clear="none"/>
+方法：<br clear="none"/>
+1 若T2的pre-order是T1的pre-order的substring，T2的in-order是T1的in-order的substring，则T2是T1的subtree。<br clear="none"/>
+substring用suffix trees解决，linear time。（Boyer-Moore，KMP）<br clear="none"/>
+注意：KMP和Boyer-Moore是preprocess pattern，而suffix tree是preprocess text。<br clear="none"/>
+注意：要用特殊字符来表示null。<br clear="none"/>
+此方法需要copy两个树，空间为O(n+m)，不符合要求。<br clear="none"/>
+2 递归比较，naive的方法。空间为O(log n + log m)。时间的worst case为O(nm)。
+<div><br clear="none"/></div>
+4.9 给一个value和一个二叉树，找出所有和为这个value的path。（只考虑parent到children的单向path，不考虑拐弯的path）<br clear="none"/>
+方法：递归，并记录当前path。每递归到一个节点，将当前节点加入path，考虑所有以当前节点为终点的path，考虑所有起点。如果和为sum，则print之。<br clear="none"/>
+复杂度，要遍历n个节点，每个节点的path长度为log n。所以复杂度为O(n log n)。<br clear="none"/></div><hr/><div><br clear="none"/><span style="font-size: 24px;"><strong>Bit Manipulation</strong></span><div><br clear="none"/></div>
+&amp; AND     | OR     ^ XOR     ~ NOT     &lt;&lt; SHL     &gt;&gt; SHR（有符号）     &gt;&gt;&gt; 无符号右移    <br clear="none"/>
+“有符号”右移位运算符使用了“符号扩展”：若值为正，则在高位插入0；若值为负，则在高位插入1。Java 也添加了一种“无符号”右移位运算符（&gt;&gt;&gt;），它使用了“零扩展”：无论正负，都在高位插入0。
+<div><br clear="none"/></div>
+A^A=0<br clear="none"/>
+A^0=A<br clear="none"/>
+A^1=~A<br clear="none"/>
+A^B^B=A
+<div><br clear="none"/></div>
+get bit: ( num &amp; ( 1 &lt;&lt; i ) ) != 0
+<div><br clear="none"/></div>
+set bit to 1: num | (1 &lt;&lt; i )
+<div><br clear="none"/></div>
+set bit to 0: num &amp; ( ~ ( 1 &lt;&lt; i ) )
+<div><br clear="none"/></div>
+set bit to v: mask = ~ ( 1 &lt;&lt; i ); ( num &amp; mask ) | ( v &lt;&lt; i )    两步：先设为0，再或v
+<div><br clear="none"/></div>
+得到0000000011111111的方法：( 1 &lt;&lt;  i ) - 1
+<div><br clear="none"/></div>
+5.1 两个数N和M，将N的i到j位设为M。<br clear="none"/>
+方法：先将N的i到j位清0，再将M移位，再或过去。<br clear="none"/>
+清零的方法：不要一个一个digit地清。分两部分，0左边的那些1，0右边的那些1，两部分或起来。
+<div><br clear="none"/></div>
+5.2 将0到1之间的实数变为二进制String。<br clear="none"/>
+方法：不断地乘二减一。
+<div><br clear="none"/></div>
+5.3 给定正整数，找出next smallest和next largest的数，使得和它有相同的1 bits。<br clear="none"/>
+方法：<br clear="none"/>
+1 暴力法。数有几个1，然后往两边找，直到找到的数有相同个数的1。<br clear="none"/>
+2 bit法。getNext：找最右边的<strong>非尾部的那个0</strong>，假设它的右边有c0个0，c1个1。将这个0设为1，右边跟着c0+1个0，最右再是c1-1个1，就是答案。<br clear="none"/>
+getPrev：类似getNext，不过把0和1反过来。
+<div><br clear="none"/></div>
+5.4 解释 ( ( n &amp; (n-1) ) == 0 )。<br clear="none"/>
+方法：n是否是2的x次方，或者0。<br clear="none"/>
+我的延伸：<br clear="none"/>
+bitcount：计算一个bit vector有多少个1。<br clear="none"/>
+bitcount(n):<br clear="none"/>
+    count = 0<br clear="none"/>
+    while n &gt; 0:<br clear="none"/>
+        count = count + 1<br clear="none"/>
+        <strong>n = n &amp; (n-1)</strong><br clear="none"/>
+    return count<br clear="none"/>
+复杂度：O(Number of 1's) 
+<div><br clear="none"/></div>
+5.5 将整数A转换成B需要convert几个bit。<br clear="none"/>
+方法：看A^B有几个1就行了。<br clear="none"/>
+需要用上面的bitcount。
+<div><br clear="none"/></div>
+5.6 给一个整数，将其odd bits和even bits交换。用尽可能少的操作。<br clear="none"/>
+方法：如果一个bit一个bit地去get和set会有太多操作。<br clear="none"/>
+用10101010得到奇数位再右移，用01010101得到偶数位再左移。最后或一下。<br clear="none"/>
+16进制用0x前缀表示。<br clear="none"/>
+long用L后缀表示。
+<div><br clear="none"/></div>
+5.7 一个0到n的array，少了一个数。有个方法能得到A[i]的jth bit，cost为constant。找出missing Integer，限制为O(n)。<br clear="none"/>
+方法：如果用求和的方法找，需要使用所有数的所有bit。整数长度为O(log n)，代价为O(n log n)。<br clear="none"/>
+可以先根据n判断最后一个bit有多少个1，据此求missing number的末位。然后将末位不一致的数删掉，再考虑倒数第二位。以此类推。为O(n+n/2+n/4+...)=O(n)。
+<div><br clear="none"/></div>
+5.8 单色屏幕的所有像素存在byte array里，一个bit一个像素。宽度是8的倍数。如何画条水平直线连接(x1,y)和(x2,y)。<br clear="none"/>
+方法：两端的byte要一个bit一个bit地设，中间的直接全设为1。<br clear="none"/></div><hr/><div><br clear="none"/><span style="font-size: 24px;"><strong>Brain Teasers</strong></span><div><br clear="none"/></div>
+例题：两根绳子，每根要1小时烧完。如何计时15分钟。
+<div><br clear="none"/></div>
+例题：9个球，一个更重。用天平秤两次找出重的那个。
+<div><br clear="none"/></div>
+五个基本方法：举例，化简，推广，模式匹配，base case and build。
+<div><br clear="none"/></div>
+6.1 19个瓶子里都是1克的pill，另一个是1.1克的pill。用秤一次找出这个瓶子。<br clear="none"/>
+方法：第一瓶一片，第二瓶两片，以此类推。
+<div><br clear="none"/></div>
+6.2 8*8的象棋盘里去掉了两个对角格，剩下的能否用2*1的矩形块铺满。<br clear="none"/>
+方法：象棋盘是黑白的，两个对角格颜色一样，但是矩形块的两个颜色不一样。不行。
+<div><br clear="none"/></div>
+6.3 两个瓶子的容量是5和3。如何做出4的水。<br clear="none"/>
+方法：5-3=2，3-2=1，5-1=4。<br clear="none"/>
+扩展：如果容量是a和b，如何做出z？<br clear="none"/>
+图的宽度遍历。<br clear="none"/>
+起点为(0,0)，任意节点(x,y)可能有三个neighbor：<br clear="none"/>
+(x,y) -&gt; (a,y)<br clear="none"/>
+(x,y) -&gt; (x,b)<br clear="none"/>
+(x,y) -&gt; (x-delta,b) 或 (x,y) -&gt; (a,y-delta)
+<div><br clear="none"/></div>
+6.4 所有蓝眼人要走，每天只有一班飞机，每个人只能看到别人的颜色，至少一个蓝眼睛。几天后走完。<br clear="none"/>
+方法：如果n个蓝眼睛，则在第n天同时全走。
+<div><br clear="none"/></div>
+6.5 100层楼，两个鸡蛋，鸡蛋会在第N层破。如何扔鸡蛋确定N，使worst case最小。<br clear="none"/>
+方法：核心在于，无论怎么扔第一个，第二个鸡蛋都是一层一层扫的。<br clear="none"/>
+load balancing：使Drops(egg1)+Drops(egg2)为常数。<br clear="none"/>
+egg1的扫描方式为X, X-1, X-2, …, 1<br clear="none"/>
+X=14。
+<div><br clear="none"/></div>
+6.6 100个箱子，开全部，关2的倍数，开3的倍数，以此一路toggle下去。最后几个开着。<br clear="none"/>
+方法：约数个数为奇数。完全平方数，10个。<br clear="none"/></div><hr/><div><br clear="none"/><span style="font-size: 24px;"><strong>Mathematics and Probabilities</strong></span><div><br clear="none"/></div>
+最大公约数greatest common divisor<br clear="none"/>
+最小公倍数least common multiple    lcm=a*b/gcd<br clear="none"/>
+Sieve of Eratosthenes埃拉托斯特尼筛法，用来生成一系列质数：删除2的倍数，删除3的倍数，删除5的倍数，以此类推。<br clear="none"/>
+一个简单的优化：搜p的倍数的时候，从p^2开始搜。
+<div><br clear="none"/></div>
+7.1 投篮，一投一中和三投两中哪个更好。<br clear="none"/>
+方法：很简单的概率。
+<div><br clear="none"/></div>
+7.2 n边形的n个顶点有n个蚂蚁，每个蚂蚁从顶点开始两个方向等概率选一个开始走，所有蚂蚁等速度。蚂蚁相撞的概率是多少。<br clear="none"/>
+方法：很简单。
+<div><br clear="none"/></div>
+7.3 判断两条直线是否相交。<br clear="none"/>
+方法：注意考虑重合，以及垂直线的slope。
+<div><br clear="none"/></div>
+7.4 只用加法来实现乘法，减法，除法。<br clear="none"/>
+方法：<br clear="none"/>
+先实现相反数negate(a)，也就是将1或-1相加|a|次。有了相反数，就有了减法。<br clear="none"/>
+有了negate，就有了绝对值函数abs。<br clear="none"/>
+乘法a*b就是把a叠加b次，注意考虑绝对值，要让b是绝对值较小的那个。<br clear="none"/>
+除法就是乘法的逆运算。c=a/b，则a=b*c+d，不断地叠加b，直到达到或超过a。
+<div><br clear="none"/></div>
+7.5 二维平面有两个正方形，且平行于坐标轴。找一条直线平分这两个正方形。<br clear="none"/>
+方法：经过正方形中心。
+<div><br clear="none"/></div>
+7.6 平面上有很多点。找出经过最多点的直线。<br clear="none"/>
+方法：直线用斜率和截距表示，还要有个boolean表示是否和y轴平行。直线用hash table存储，将直线map到点（或者点的index）。注意要override两个函数：hashCode和equals。
+<div><br clear="none"/></div>
+7.7 求第k个只有3、5、7这三个因子的整数。<br clear="none"/>
+方法：<br clear="none"/>
+naive方法。维持一个集合，将集合所有数乘以3、5、7，取最小的集合里没有的数作为下一个。O(k^2)。<br clear="none"/>
+优化方法。从1开始。每生成一个数A，就把3A,5A,7A放入一个queue。A的下一个数就从queue里面选最小的。queue用heap实现，为避免重复元素进入queue，再加一个HashSet。O(k log k)。<br clear="none"/></div><hr/><div><br clear="none"/><span style="font-size: 24px;"><strong>Recursion and Dynamic Programming</strong></span><div><br clear="none"/></div>
+dynamic programming = recursion + caching
+<div><br clear="none"/></div>
+9.1 小孩爬楼梯，一次1或2或3步。n阶楼梯几种爬法？<br clear="none"/>
+方法：DP。
+<div><br clear="none"/></div>
+9.2 一个X*Y的格子，机器人从左上去右下，只能往下或往右走，从(0,0)到(X,Y)几种走法？如果有障碍呢？<br clear="none"/>
+方法：二维DP。
+<div><br clear="none"/></div>
+9.3 若A[i]=i，则i称为magic index。给一个排序的A，求magic index。如果A的数字不distinct呢？<br clear="none"/>
+方法：如果distinct，则简单的二分法。<br clear="none"/>
+如果不distinct，依然用二分法，但是两边都要查找，而且查找范围有限制。
+<div><br clear="none"/></div>
+9.4 集合的所有子集（powerset）。<br clear="none"/>
+方法：backtracking。<br clear="none"/>
+另一个方法是生成0到2^n-1的所有数，按照二进制的0和1来判断要不要加某个元素。
+<div><br clear="none"/></div>
+9.5 一个string的所有permutation。<br clear="none"/>
+方法：<br clear="none"/>
+backtracking。考虑到string有重复字符，先建立HashMap统计每个字符的个数。然后回溯法，每一位出现哪个字符。<br clear="none"/>
+递归法。拿出一个字符，对剩下的求所有permutation，然后在所有位置插入新的字符。<br clear="none"/>
+交换位置法：可以和自己换位，但不要和不是自己的相同字符换位。
+<div><br clear="none"/></div>
+9.6 所有有效的n对小括号。<br clear="none"/>
+方法：backtracking。记录两个数，已经出现的(个数，和已经出现的(比)多的个数。前者不能超过n。后者一定大于等于0。按照这样的规则进行回溯，一个字符一个字符地加进去。
+<div><br clear="none"/></div>
+9.7 实现paint fill方法，也就是windows画笔的油漆桶。<br clear="none"/>
+方法：用递归可以实现，每个像素递归到它的四个邻居。<br clear="none"/>
+另外可以用queue+hash table来宽度遍历。
+<div><br clear="none"/></div>
+9.8 将n cents拆成25分，10分，5分，1分有多少种方式？<br clear="none"/>
+方法：一个币种一个币种来，递归即可。注意最后一个币种要判断是否整除。
+<div><br clear="none"/></div>
+9.9 八皇后问题。<br clear="none"/>
+方法：最基本的backtracking。注意不需要maintain一个8*8的数组。只需要3个HashSet就行了。行是i，列是j。3个HashSet分别放j，i+j，i-j。
+<div><br clear="none"/></div>
+9.10 n种盒子，有长宽高。要堆起来，下面的必须长宽高都严格大于上面的。怎样堆最高？（高度的总和）<br clear="none"/>
+方法：从底部的盒子向上递归。<br clear="none"/>
+注意可以用动态规划来节省时间。每一类盒子作为底部能达到的最大高度，这个结果可以cache起来。</div><div>可以参考Viterbi算法。<br clear="none"/></div><div><div><br clear="none"/></div>
+9.11 一个由0，1，|，&amp;，^组成的表达式，一个result，有多少种加括号的方式使表达式的值为result。<br clear="none"/>
+方法：backtracking+caching很容易。考虑先用哪个运算符将整个表达式一分为二，然后递归下去。<br clear="none"/></div><hr/><div><br clear="none"/><span style="font-size: 24px;"><strong>Scalability and Memory Limits</strong></span><div><br clear="none"/></div>
+数据分布的方法：按出现先后，按hash值，按实际值（相似度），随机值加lookup table。
+<div><br clear="none"/></div>
+例题：大量docs，找出哪些包含了一个给定的list of words。<br clear="none"/>
+方法：要考虑是一次操作还是重复调用。若是后者，就要建立一个hash map，从词到docs的map，描述哪些docs出现了这个词。
+<div><br clear="none"/></div>
+10.1 提供一个供查询每天结束时股价信息的服务。<br clear="none"/>
+方法：FTP+txt。SQL。XML。
+<div><br clear="none"/></div>
+10.2 大型social network的data structure。如何找出两个人的path？<br clear="none"/>
+方法：问题在于人都在不同的机器上。每个人用id表示，然后有一个查找每个人在哪个机器上的方法。找一个人时，先看在哪个机器上，再去那个机器上找。用hashtable来记录一个节点是否visited。
+<div><br clear="none"/></div>
+10.3 有个文件里有40亿个不同的非负整数。找出里面没有的数。1G内存怎么做？10M内存怎么做？<br clear="none"/>
+方法：1G内存，就是80亿个bit，可以用bit vector解决。<br clear="none"/>
+10M内存，two pass。允许额外硬盘：第一次将文件按范围分成几个小文件。不允许额外硬盘：在每个范围内计数找出哪些范围是感兴趣的。第二次在具体范围内找。
+<div><br clear="none"/></div>
+10.4 一堆数从1到N。N未知但最多32000。数里有重复的。找出重复的。4K内存。<br clear="none"/>
+方法：bit vector。4K*8=32000。Java自带BitSet类。
+<div><br clear="none"/></div>
+10.5 设计web crawler时如何避免无限loop。<br clear="none"/>
+方法：用hash table记录一个page是否crawl过不好使，因为URL和内容都不好定义一个page。<br clear="none"/>
+好的方法是给page定义优先级priority，并将page和最近crawl过的page比较，如果不相似，则crawl；否则设为低优先级再放回去。<br clear="none"/>
+好处：never complete, avoid getting stuck。
+<div><br clear="none"/></div>
+10.6 100亿个URL，如何找重复的？<br clear="none"/>
+方法：将URL转换为hash值，按hash值分成小文件，或者发送到不同机器去。再分别处理小文件，或让机器并行处理。
+<div><br clear="none"/></div>
+10.7 一个简化的搜索引擎有100个机器。processSearch(String queue)可能在任意机器上被调用。设计一个caching的机制。<br clear="none"/>
+方法：<br clear="none"/>
+caching的两个基本功能：根据key快速查找，老旧数据的expire。<br clear="none"/>
+数据结构：linked list + hash table。<br clear="none"/>
+每个机器存储cache的不同的segment。同时有个hash函数将queue对应到一个机器。<br clear="none"/>
+引进一个timeout机制，无论一个queue多频繁，x分钟后还是要重新调用processSearch函数。<br clear="none"/></div><hr/><div><br clear="none"/><span style="font-size: 24px;"><strong>Sorting and Searching</strong></span><div><br clear="none"/></div>
+Bubble Sort, O(n^2) time, O(1) memory<br clear="none"/>
+Selection Sort, O(n^2) time, O(1) memory<br clear="none"/>
+Merge Sort, O(n log n) time, memory depends<br clear="none"/>
+Quick Sort, O(n log n) average time, O(n^2) worst case, O(log n) memory，使用partition方法（返回index）<br clear="none"/>
+Radix Sort, O(kn)<br clear="none"/>
+binary search
+<div><br clear="none"/></div>
+11.1 A和B都是sorted array，A的末尾有足够的空间。将B merge进A。<br clear="none"/>
+方法：类似1.4。从后往前做。
+<div><br clear="none"/></div>
+11.2 给array of strings排序，使anagram相邻。<br clear="none"/>
+方法：<br clear="none"/>
+基于比较。只要定义comparator。可以先给string排序，然后比较。<br clear="none"/>
+基于bucket sort。定义一个HashMap，将sorted string映射到list of original strings。
+<div><br clear="none"/></div>
+11.3 一个排好序的array经过rotate，在里面查找一个数。<br clear="none"/>
+方法：二分法。注意考虑可能有重复元素。
+<div><br clear="none"/></div>
+11.4 一个20G的文件，每行一个string，如何sort这个文件。<br clear="none"/>
+方法：external sort。大文件拆成小文件，小文件排序后再merge。
+<div><br clear="none"/></div>
+11.5 sorted array of strings，里面有很多空string，查找一个给定的string。<br clear="none"/>
+方法：二分法。碰到空string就左右移动去找非空。
+<div><br clear="none"/></div>
+11.6 矩阵每行每列都为升序，查找一个元素。<br clear="none"/>
+方法：行列分别二分法。<br clear="none"/>
+或者从右上/左下元素开始搜索。大于小于时分别换行换列。（换行换列时，可以不只走一步，而是使用二分法）
+<div><br clear="none"/></div>
+11.7 马戏团几个人叠罗汉，下面的人的身高体重都要大于上面的人。最多叠几个人？（类似9.10）（<strong>难题！</strong>）<br clear="none"/>
+方法：topology sort。backtracking。<br clear="none"/>
+书里的方法是longest increasing subsequence。先按高度排序，然后找排好序的人的重量的最长升序子序列。<br clear="none"/>
+longest increasing subsequence：维持一个solution array，每个元素是一个sequence。从左往右看，试着将当前元素append到所有左边的solution里，看最长的那个，作为当前的solution。O(n^2)。</div><div>可以参考Viterbi算法。
+<div><br clear="none"/></div>
+11.8 有一个整数的stream，实现getRankOfNumber(int x)，看有多少数小于或等于x，不包括x自己。同时有一个track(int x)方法，每生成新的数就会调用。<br clear="none"/>
+方法：BST，并且每个节点记录左子树的大小。<br clear="none"/></div><hr/><div><br clear="none"/><span style="font-size: 24px;"><strong>Java</strong></span><div><br clear="none"/></div>
+final: 变量不能改变，函数不能被子类覆盖，类不能被继承（因此类不能为final abstract）<br clear="none"/>
+finally: try-catch-finally，即使异常也会被执行<br clear="none"/>
+finalize: 自动垃圾回收器会在对象销毁前调用finalize()
+<div><br clear="none"/></div>
+overload: 变量类型不同 (operator overloading)<br clear="none"/>
+override: 子类方法覆盖父类方法，变量类型相同
+<div><br clear="none"/></div>
+14.1 将构建函数申明为private会如何？<br clear="none"/>
+答案：外面不能创造instance，只能用Factory设计模式。<br clear="none"/>
+同时类不能被继承。
+<div><br clear="none"/></div>
+14.2 try-catch-finally内如果有return，是否会执行finally？<br clear="none"/>
+答案：会。
+<div><br clear="none"/></div>
+14.3 final，finally，finalize的区别。<br clear="none"/>
+答案：见如上。
+<div><br clear="none"/></div>
+14.4 C++模板和Java generics的区别。<br clear="none"/>
+答案：Java generics只是语法糖（syntactic sugar），不能用primitive types。Java里名称相同的不同type parameter的generics类的instance会共享static variable。
+<div><br clear="none"/></div>
+14.5 object reflection是什么？<br clear="none"/>
+答案：在runtime得到类的方法和field的信息。用于观察应用程序的runtime behavior，帮助调试。
+<div><br clear="none"/></div>
+14.6 实现CircularArray，能够快速rotate，且支持(Obj o : circularArray)。<br clear="none"/>
+答案：用head记录头在哪。implements Iterable&lt;T&gt;，实现iterator()并返回一个Iterator的实现，其中要有hasNext()，next()，remove()。<br clear="none"/></div><hr/><div><br clear="none"/><span style="font-size: 24px;"><strong>Moderate</strong></span><div><br clear="none"/></div>
+17.1 Swap number in space。<br clear="none"/>
+方法：加法。XOR。利用a^b^b=a。
+<div><br clear="none"/></div>
+17.2 判断井字棋（tic-tac-toe）的胜负。<br clear="none"/>
+方法：如果经常调用，则将棋盘hash起来。棋盘可以用3进制表示为整数。<br clear="none"/>
+否则，检查行列对角线即可。
+<div><br clear="none"/></div>
+17.3 算n!后面的0的个数。<br clear="none"/>
+方法：数有几个5。除以5，除以25，除以125，等等，叠加。
+<div><br clear="none"/></div>
+17.4 不用if-else，不用比较，求两个数里更大的一个。<br clear="none"/>
+方法：关键在于bit。(a&gt;&gt;31) &amp; 0x1可以得到符号。0x1是16进制的1。<br clear="none"/>
+三个符号：a的符号，b的符号，a-b的符号。<br clear="none"/>
+此外要考虑overflow的问题。<br clear="none"/>
+判断a-b的符号。如果a-b溢出，说明a和b符号不同，用这个来判断。<br clear="none"/>
+a*k+b*q，k和q是0或1。
+<div><br clear="none"/></div>
+17.5 猜数字，4个数字（可重复），猜之，要返回猜的结果几个是位置数字都正确，剩下的几个是数字正确位置不正确。（几A几B）<br clear="none"/>
+方法：很简单。
+<div><br clear="none"/></div>
+17.6 在一个array里，找位置m和n，使得只要m到n排好序，整个array就排好序了。使n-m最小。<br clear="none"/>
+方法：创建辅助array。元素右边的最小元素；元素左边的最大元素。由这两个辅助array来找m和n。不断m++和n--就行了。O(n)。
+<div><br clear="none"/></div>
+17.7 给一个数字，将其用英文print出来。<br clear="none"/>
+方法：考虑所有特殊情况。
+<div><br clear="none"/></div>
+17.8 一个整数array有正有负，找到和最大的连续序列。<strong>（经典题！）</strong><br clear="none"/>
+方法：<strong>running sum方法。</strong><br clear="none"/>
+int maxsum=0;<br clear="none"/>
+int sum=0;<br clear="none"/>
+for(int i=0;i&lt;a.length;i++)<br clear="none"/>
+{<br clear="none"/>
+     sum+=a[i];<br clear="none"/>
+     if(maxsum&lt;sum) maxsum=sum;<br clear="none"/>
+     else if(sum&lt;0) sum=0;<br clear="none"/>
+}<br clear="none"/>
+return maxsum;
+<div><br clear="none"/></div>
+17.9 求一本书里任意词的词频。<br clear="none"/>
+方法：hash table。
+<div><br clear="none"/></div>
+17.10 XML转成整数的encode。<br clear="none"/>
+方法：递归。
+<div><br clear="none"/></div>
+17.11 用rand5()实现rand7()。<br clear="none"/>
+方法：5*rand5()+rand5()。
+<div><br clear="none"/></div>
+17.12 整数列里找和为sum的两个。2sum问题。<br clear="none"/>
+方法：HashMap。<br clear="none"/>
+另一个方法：先排序，然后用首尾指针。很重要的方法！
+<div><br clear="none"/></div>
+17.13 如果一个节点有两个指针，则可以表示树或者双向链表。将BST转换为双向链表。<br clear="none"/>
+方法：递归，返回一个Wrapper类，内有双向链表的头和尾。
+<div><br clear="none"/></div>
+17.14 一段文字丢失了空格、标点、大小写。如何根据一个dictionary插入空格， 使unrecognized char最少？<br clear="none"/>
+方法：<br clear="none"/>
+递归+caching。<br clear="none"/>
+考虑每一个位子加入空格，左右的加起来。认为左边的是一个整体，不能分割。<br clear="none"/>
+hashing的时候只考虑右半部分。<br clear="none"/>
+hash：string -&gt; least num of unrecognized chars<br clear="none"/>
+hash：string -&gt; parsed string<br clear="none"/></div><hr/><div><br clear="none"/><span style="font-size: 24px;"><strong>Hard</strong></span><div><br clear="none"/></div>
+18.1 不用加号或其他算术运算符实现两个数相加。<br clear="none"/>
+方法：bit。<br clear="none"/>
+sum=a^b;<br clear="none"/>
+carry=(a&amp;b)&lt;&lt;1;
+<div><br clear="none"/></div>
+18.2 用一个随机数生成器来shuffle一副扑克牌。<br clear="none"/>
+方法：随机找张牌放在第一位，再从第二位开始随机找张牌放第二位，以此类推。
+<div><br clear="none"/></div>
+18.3 从n个数字里随机找m个。<br clear="none"/>
+方法：随机选一个，跟第一个换位。再从第二个往后随机选一个，跟第二个换位。一直到选了m个为止。
+<div><br clear="none"/></div>
+18.4 从0到n的所有整数里，2这个digit出现的次数。<br clear="none"/>
+方法：<br clear="none"/>
+暴力法，一个一个去数。<br clear="none"/>
+按digit去数，分三种情况。digit大于2，小于2，等于2。
+<div><br clear="none"/></div>
+18.5 一个很大的文本文件，给两个词，求它们的最短距离。能否用O(1) time？<strong>（经典题！）</strong><br clear="none"/>
+方法：先找出这两个词出现的所有位置，得到两个sorted array。<strong>将两个list合并但是打上tag，找相邻的不同tag。</strong><br clear="none"/>
+例如1a,2a,4b,9a,10b,15a,19b,25a
+<div><br clear="none"/></div>
+18.6 十亿个数里找最小的一百万个数。内存足够。<br clear="none"/>
+方法：<br clear="none"/>
+排序，O(n log n)，n为十亿。<br clear="none"/>
+Heap，用最大堆，每次插入一个数，然后移除head。O(n log m)，m为一百万。<br clear="none"/>
+Selection rank，O(n)，但需要修改原array。基于partition函数。
+<div><br clear="none"/></div>
+18.7 给一堆词，找出能用其他词拼成的最长的词。<br clear="none"/>
+方法：先把所有词按长度排序。从最长的词开始试，用backtracking。<br clear="none"/>
+注意用动态规划来优化，存储已知哪些词可以哪些词不行。
+<div><br clear="none"/></div>
+18.8 字符串s和较短字符串的数组T，要在s中搜索T的每一个较短字符串。<br clear="none"/>
+方法：用suffix tree后缀树。
+<div><br clear="none"/></div>
+18.9 设计一个数据结构能够得到median。<br clear="none"/>
+方法：两个heap，一个最大heap一个最小heap。最大heap可能比最小heap多一个数。
+<div><br clear="none"/></div>
+18.10 给一个dictionary，里面所有词一样长。给出其中两个，找一个path，使得一次只变一个字符。<br clear="none"/>
+方法：宽度优先遍历BFS。对每个字符，尝试a到z所有字母，看在不在dict里。<br clear="none"/>
+要用一个HashMap来查看每个词前面的词是什么。
+<div><br clear="none"/></div>
+18.11 一个黑白方阵，找一个四条边都是黑的最大子方阵。<br clear="none"/>
+方法：<br clear="none"/>
+naive方法，从N*N开始试，然后试(N-1)*(N-1)的。试的方阵为O(N^3)，每个方阵的检查为O(N)，因此为O(N^4)。<br clear="none"/>
+优化。将方阵的检查变为O(1)。对于每个pixel，记录右边（下边）连续黑色的长度。这个pre-processing的代价为O(N^2)。优化后总的代价为O(N^3)。
+<div><br clear="none"/></div>
+18.12 一个N*N的整数矩阵有正有负，找和最大的子矩阵。<br clear="none"/>
+方法：<br clear="none"/>
+暴力法，N^2个左上角，N^2个右下角，N^2的求和。总共是O(N^6)。<br clear="none"/>
+积分矩阵，将求和变为O(1)。总代价是O(N^4)。<br clear="none"/>
+优化的O(N^3)解法。对任意两行，考虑两行之间夹着的通过选列得到的子矩阵。对每一列求和，得到一个单独的行。现在的问题则变成了求这一行的连续数字的最大和，用17.8的running sum解法，代价为O(N)。求和通过动态更新也能做到O(N)。最后的总代价为O(R^2*C)。R是行数，C是列数。
+<div><br clear="none"/></div>
+18.13 给一个很大的词的list，造一个最大的字符矩阵，使得每一行每一列都是list中的一个词。<br clear="none"/>
+方法：<br clear="none"/>
+先把词按长度分组，假设最长的词长度为L。<br clear="none"/>
+for(z=L*L;z&gt;=1;z--)，将z分解为两个数的积z=l*h。<br clear="none"/>
+将所有长度为h的词用来构建一个trie。<br clear="none"/>
+尝试所有长度为l的单词，用来一行一行构建矩阵，如果当前有不在trie中的列，则跳出。<br clear="none"/></div><hr/><div><br clear="none"/></div><div><br clear="none"/></div><div><br clear="none"/></div><div><br clear="none"/></div><div><br clear="none"/></div><div><br clear="none"/></div><div><br clear="none"/></div><div><br clear="none"/></div><div><br clear="none"/></div><div><br clear="none"/></div></span>
+</div></body></html> 
